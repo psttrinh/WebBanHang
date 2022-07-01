@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!--{% for message in get_flashed_messages() %}-->
+<!--<div class="alert alert-warning alert-dismissible fade show" role="alert">-->
+<!--    {{ message }}-->
+<!--    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--</div>-->
+<!--{% endfor %}-->
+
+<h1>Hello World!</h1>
+<p>This is my first webpage!!</p>
+<p>My name is {{ first_name }}</p>
+<p>{{ stuff|title }}</p>
+<h3>Favorite Pizza:</h3>
+
+{% for topping in favorite_pizza %}
+
+{% if topping == 41 %}
+{{ topping + 100 }}
+{% else %}
+{{ topping }}<br>
+{% endif %}
+
+{% endfor %}
+
+<br><br>
+
+{% endblock %}

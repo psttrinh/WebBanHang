@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- bootstrap -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../static/css/style.css" rel="stylesheet">
+    <!-- Orignal -->
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script type="text/javascript" src="../static/js/aframe-html-shader.min.js"></script>
+    <script type="text/javascript" src="../static/js/webcc.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script type="text/javascript" src="../static/js/instascan.min.js"></script>
+</head>
+
+<body style="margin:0px; overflow:hidden;width: auto;height: auto;">
+    <!-- load AR.js -->
+    <div id="qrcode">
+        <video id="preview"></video>
+    </div>
+
+   <div id="profile" style="color: white;  position: absolute; top: 0px; left: 0px; z-index: -2;">
+    <div class="card-header " style="margin:0px;padding:0px;  ">
+                <div class="card-1 border-none"  style="background-color: #1674ba;border: none;">
+                    <div class="row">
+                    <div  class="col-3">
+                        <img src="../static/img/portfolio.png" width="50" height="50">
+                    </div>
+                    <div class="col-9">
+                        <h4>Bag B020920</h4>
+                        Shop bán hàng
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div style="background-color: #b64040; padding:10px 10px 5px 10px;">
+                     <h5><img src="../static/img/warning.png" width="30" height="30"> Offload - late passenger</h4>
+               </div>
+            <div class="card-body"style="background-color: #363636;">
+
+                <div class="row row-cols-2" style="padding: 20px 0 0 0px;">
+                    <div class="col">
+                        <h4 class="card-body-content-h4">Tên hàng</h4>
+                        <p class="Data1"></p>
+                    </div>
+                    <div class="col">
+                        <h4 class="card-body-content-h4">Màu sắc</h4>
+                        <p class="Data2"></p>
+                    </div>
+                    <div class="col">
+                        <h4 class="card-body-content-h4">Giá</h4>
+                        <p class="Data3" ></p>
+                    </div>
+                    <div class="col">
+                        <h4 class="card-body-content-h4">Số lượng còn lại</h4>
+                        <p class="Data4" ></p>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+    </div>
+          <!-- Start Data dong -->
+          <script>
+
+        let scanner = new Instascan.Scanner({
+        video: document.getElementById('preview')
+       });
+
+       scanner.addListener('scan', function (content) {
+        console.log(content);
+        if(content!=""){
+        console.log("testscanqr");
+        const Data = [{type:"Siemens1"},{type: "Siemens2"}, {type:"Siemens3"},{type:"Siemens4"}];
+        const thedata = ["Áo sơ mi", "đỏ", "120k", "50"];
+        const collection1 = document.getElementsByClassName("Data1");
+                        const collection2 = document.getElementsByClassName("Data2");
+                        const collection3 = document.getElementsByClassName("Data3");
+                        const collection4 = document.getElementsByClassName("Data4");
+<!--                        collection1[0].innerHTML = Data[0].type;-->
+<!--                        collection2[0].innerHTML = Data[1].type;-->
+<!--                        collection3[0].innerHTML = Data[2].type;-->
+<!--                        collection4[0].innerHTML = Data[3].type;-->
+                        collection1[0].innerHTML = thedata[0];
+                        collection2[0].innerHTML = thedata[1];
+                        collection3[0].innerHTML = thedata[2];
+                        collection4[0].innerHTML = thedata[3];
+
+        const qrcode = document.getElementById("qrcode");
+        qrcode.remove();
+
+        const scene = document.createElement("a-scene");
+        scene.setAttribute("id","scene-siemens");
+        document.body.appendChild(scene);
+        const marker = document.createElement("a-marker");
+        marker.setAttribute ("preset","hiro");
+        marker.setAttribute ("id","marker-siemens");
+        document.getElementById("scene-siemens").appendChild(marker);
+        const plane = document.createElement("a-plane");
+        plane.setAttribute("transparent","true");
+        plane.setAttribute("opacity","0.9");
+        plane.setAttribute("rotation","-72 85 -88");
+        plane.setAttribute("position","0 0 0");
+        plane.setAttribute("scale","1 2 1");
+        plane.setAttribute("material","shader:html;target: #profile;");
+        document.getElementById("marker-siemens").appendChild(plane)
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("camera");
+        document.getElementById("marker-siemens").appendChild(entity)
+        }
+      });
+
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+           </script>
+           <!-- End data dong -->
+    <!-- set AR.js to AFrame -->
+    <!--
+    <a-scene>
+        <a-marker preset='hiro'>
+            <a-plane transparent="true" opacity="0.9" rotation="-72 85 -88"  material="shader:html;target: #profile;"></a-plane>
+        </a-marker>
+        <a-entity camera ></a-entity>
+    </a-scene> -->
+
+</body>
+</html>
